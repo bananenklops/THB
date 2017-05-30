@@ -21,7 +21,7 @@ type
     procedure execQuery(query: string);
     procedure updateQuery(table: string; column: string; Value: string;
       whereKey: string; whereValue: string);
-    function selectQuery(query:String): TParams;
+    function selectQuery(query: string): TParams;
   protected
   end;
 
@@ -39,24 +39,17 @@ begin
 
     if RegexObj.Exec(db) then
     begin
-      if FileExists(db) then
-      begin
-        dbCon := TSQLite3Connection.Create(nil);
-        dbTrans := TSQLTransaction.Create(nil);
-        dbQuery := TSQLQuery.Create(nil);
+      dbCon := TSQLite3Connection.Create(nil);
+      dbTrans := TSQLTransaction.Create(nil);
+      dbQuery := TSQLQuery.Create(nil);
 
-        dbCon.DatabaseName := db;
-        dbTrans.DataBase := dbCon;
-        dbQuery.Transaction := dbTrans;
-        dbCon.Open;
-        if not dbCon.Connected then
-          ShowMessage('database connection could not be established');
-        dbCon.Close;
-      end
-      else
-      begin
-        ShowMessage('database file not found');
-      end;
+      dbCon.DatabaseName := db;
+      dbTrans.DataBase := dbCon;
+      dbQuery.Transaction := dbTrans;
+      dbCon.Open;
+      if not dbCon.Connected then
+        ShowMessage('database connection could not be established');
+      dbCon.Close;
     end
     else
     begin
@@ -116,7 +109,7 @@ begin
       'UPDATE :table SET :column = :value WHERE :whereKey = :whereValue;';
     dbQuery.ParamByName('table').AsString := table;
     dbQuery.ParamByName('column').AsString := column;
-    dbQuery.ParamByName('value').AsString := value;
+    dbQuery.ParamByName('value').AsString := Value;
     dbQuery.ParamByName('whereKey').AsString := whereKey;
     dbQuery.ParamByName('whereValue').AsString := whereValue;
     dbQuery.ExecSQL;
@@ -133,7 +126,7 @@ begin
   end;
 end;
 
-function TDbCon.selectQuery(query:String): TParams;
+function TDbCon.selectQuery(query: string): TParams;
 begin
   try
     // Verbindung herstellen

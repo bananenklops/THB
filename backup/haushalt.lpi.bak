@@ -36,7 +36,7 @@
         <PackageName Value="LCL"/>
       </Item2>
     </RequiredPackages>
-    <Units Count="3">
+    <Units Count="4">
       <Unit0>
         <Filename Value="haushalt.lpr"/>
         <IsPartOfProject Value="True"/>
@@ -54,6 +54,11 @@
         <IsPartOfProject Value="True"/>
         <UnitName Value="mDbCon"/>
       </Unit2>
+      <Unit3>
+        <Filename Value="mdbentry.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="mDbEntry"/>
+      </Unit3>
     </Units>
   </ProjectOptions>
   <CompilerOptions>

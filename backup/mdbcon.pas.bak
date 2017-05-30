@@ -5,7 +5,7 @@ unit mDbCon;
 interface
 
 uses
-  sqlite3conn, sqldb, SysUtils, RegExpr, Dialogs, DB;
+  sqlite3conn, sqldb, SysUtils, RegExpr, Dialogs, DB, Classes;
 
 type
   TDbCon = class(TObject)

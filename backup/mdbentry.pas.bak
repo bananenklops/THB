@@ -13,14 +13,13 @@ type
   private
 
     FDb: TDbCon;
-  public
+   public
 
     procedure createTable; virtual; abstract;
     procedure addEntry; virtual; abstract;
     procedure updateEntry; virtual; abstract;
     procedure deleteEntry; virtual; abstract;
     function getEntries: TParams; virtual; abstract;
-    function get
 
   published
   end;

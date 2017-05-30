@@ -1,0 +1,6 @@
+!*.lpr
+!*.lpi
+!*.pas
+!haushalt.db
+!*.dfm
+!*.res
