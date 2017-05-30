@@ -1,6 +1,11 @@
+# Generell wird alles ignoriert
+**
+# Ausnahmen sind die Projektdateien
 !*.lpr
 !*.lpi
 !*.pas
-!haushalt.db
 !*.dfm
 !*.res
+# Und Speziell benötigte Dateien (DB, dll)
+!haushalt.db
+!sqlite3.dll
