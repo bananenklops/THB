@@ -1,6 +1,7 @@
 # Generell wird alles ignoriert
 **
 # Ausnahmen sind die Projektdateien
+!*.lfm
 !*.lpr
 !*.lpi
 !*.pas

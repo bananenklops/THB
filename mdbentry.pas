@@ -5,7 +5,7 @@ unit mDbEntry;
 interface
 
 uses
-  Classes, SysUtils, mDbCon, db;
+  Classes, SysUtils, mDbCon, DB;
 
 type
   TDbEntry = class abstract(TObject)
