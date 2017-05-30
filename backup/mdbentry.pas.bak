@@ -1,0 +1,31 @@
+unit mDbEntry;
+
+{$mode objfpc}{$H+}
+
+interface
+
+uses
+  Classes, SysUtils, mDbCon, db;
+
+type
+  TDbEntry = class abstract(TObject)
+
+  private
+
+    FDb: TDbCon;
+  public
+
+    procedure createTable; virtual; abstract;
+    procedure addEntry; virtual; abstract;
+    procedure updateEntry; virtual; abstract;
+    procedure deleteEntry; virtual; abstract;
+    function getEntries: TParams; virtual; abstract;
+    function get
+
+  published
+  end;
+
+implementation
+
+end.
+
