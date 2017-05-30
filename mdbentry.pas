@@ -8,9 +8,9 @@ uses
   Classes, SysUtils, mDbCon, DB;
 
 type
-  TDbEntry = class abstract(TObject)
+  TDbEntry = class(TObject)
 
-  private
+  protected
 
     FDb: TDbCon;
   public
@@ -21,10 +21,28 @@ type
     procedure deleteEntry; virtual; abstract;
     function getEntries: TParams; virtual; abstract;
 
+    constructor Create;
+    destructor Destroy; override;
   published
   end;
 
 implementation
 
+  // Constructor
+  constructor TDbEntry.Create;
+  begin
+    FDb := TdbCon.Create('./haushalt.db');
+    self.createTable;
+
+    inherited Create;
+  end;
+
+  // Destructor
+  destructor TDbEntry.Destroy;
+  begin
+    FDb.Free;
+
+    inherited Destroy;
+  end;
 end.
 

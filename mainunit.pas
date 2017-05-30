@@ -5,7 +5,7 @@ unit MainUnit;
 interface
 
 uses
-  Classes, SysUtils, sqlite3conn, FileUtil, Forms, Controls, Graphics, Dialogs, mDbCon;
+  Classes, SysUtils, sqlite3conn, FileUtil, Forms, Controls, Graphics, Dialogs, mReceipt;
 
 type
 
@@ -14,7 +14,7 @@ type
   TForm1 = class(TForm)
     procedure FormShow(Sender: TObject);
   private
-    FDb: TDbCon;
+    FReceipt: TReceipt;
   public
     { public declarations }
   end;
@@ -36,7 +36,7 @@ end;
 
 procedure TForm1.FormShow(Sender: TObject);
 begin
-  FDb := TDbCon.Create('.\haushalt.db');
+  FReceipt := TReceipt.Create;
 end;
 
 end.
