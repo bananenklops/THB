@@ -7,14 +7,15 @@ uses
   cthreads,
   {$ENDIF}{$ENDIF}
   Interfaces, // this includes the LCL widgetset
-  Forms, MainUnit, mDbCon, mDbEntry, mReceipt;
+  Forms, datetimectrls, MainUnit, mDbCon, fNewItem;
 
 {$R *.res}
 
 begin
   RequireDerivedFormResource:=True;
   Application.Initialize;
-  Application.CreateForm(TForm1, Form1);
+  Application.CreateForm(TFormMain, Form1);
+  Application.CreateForm(TFormNewItem, Form2);
   Application.Run;
 end.
 

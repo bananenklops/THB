@@ -5,38 +5,36 @@ unit MainUnit;
 interface
 
 uses
-  Classes, SysUtils, sqlite3conn, FileUtil, Forms, Controls, Graphics, Dialogs, mReceipt;
+  Classes, SysUtils, sqlite3conn, FileUtil, Forms, Controls, Graphics, Dialogs,
+  StdCtrls, fNewItem;
 
 type
 
-  { TForm1 }
+  { TFormMain }
 
-  TForm1 = class(TForm)
-    procedure FormShow(Sender: TObject);
+  TFormMain = class(TForm)
+    Button1: TButton;
+    procedure Button1Click(Sender: TObject);
   private
-    FReceipt: TReceipt;
+    formNewItem: TFormNewItem;
   public
     { public declarations }
   end;
 
 var
-  Form1: TForm1;
+  Form1: TFormMain;
 
 implementation
 
 {$R *.lfm}
 
-{
+{ TFormMain }
+
+procedure TFormMain.Button1Click(Sender: TObject);
 begin
-
-end;
-}
-
-{ TForm1 }
-
-procedure TForm1.FormShow(Sender: TObject);
-begin
-  FReceipt := TReceipt.Create;
+  formNewItem:=TFormNewItem.Create(nil);
+  formNewItem.ShowModal;
+  FreeAndNil(formNewItem);
 end;
 
 end.
