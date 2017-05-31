@@ -15,7 +15,7 @@ begin
   RequireDerivedFormResource:=True;
   Application.Initialize;
   Application.CreateForm(TFormMain, Form1);
-  Application.CreateForm(TFormNewItem, Form2);
+  Application.CreateForm(TFormNewItem, FormNewItem);
   Application.Run;
 end.
 
