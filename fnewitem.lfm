@@ -1,11 +1,12 @@
-object Form2: TFormNewItem
-  Left = 720
+object FormNewItem: TFormNewItem
+  Left = 688
   Height = 199
-  Top = 372
+  Top = 394
   Width = 315
-  Caption = 'Form2'
+  Caption = 'Neuer Posten'
   ClientHeight = 199
   ClientWidth = 315
+  OnCreate = FormCreate
   LCLVersion = '1.6.4.0'
   object txtItemDesc: TEdit
     Left = 136

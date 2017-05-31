@@ -13,7 +13,6 @@ object FormMain: TFormMain
     Top = 82
     Width = 75
     Caption = 'Button1'
-    OnClick = Button1Click
     TabOrder = 0
   end
 end

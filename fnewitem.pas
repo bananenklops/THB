@@ -25,6 +25,7 @@ type
     Label4: TLabel;
     procedure btnAbortClick(Sender: TObject);
     procedure btnSaveClick(Sender: TObject);
+    procedure FormCreate(Sender: TObject);
   private
     FReceipt: TItem;
   public
@@ -32,7 +33,7 @@ type
   end;
 
 var
-  Form2: TFormNewItem;
+  FormNewItem: TFormNewItem;
 
 implementation
 
@@ -60,6 +61,11 @@ begin
   FReceipt.addEntry(test);
 
   Close;
+end;
+
+procedure TFormNewItem.FormCreate(Sender: TObject);
+begin
+
 end;
 
 end.

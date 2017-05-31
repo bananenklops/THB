@@ -14,7 +14,6 @@ type
 
   TFormMain = class(TForm)
     Button1: TButton;
-    procedure Button1Click(Sender: TObject);
   private
     formNewItem: TFormNewItem;
   public
@@ -28,14 +27,6 @@ implementation
 
 {$R *.lfm}
 
-{ TFormMain }
-
-procedure TFormMain.Button1Click(Sender: TObject);
-begin
-  formNewItem:=TFormNewItem.Create(nil);
-  formNewItem.ShowModal;
-  FreeAndNil(formNewItem);
-end;
 
 end.
 

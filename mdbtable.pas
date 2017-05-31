@@ -18,6 +18,7 @@ type
   protected
     query: string;
     FDb: TDbCon;
+    tblName: string;
   public
 
     procedure createTable; virtual; abstract;
@@ -25,6 +26,7 @@ type
     procedure updateEntry; virtual; abstract;
     procedure deleteEntry; virtual; abstract;
     function getEntries: TParams; virtual; abstract;
+    function getTableName: string;
 
     constructor Create;
     destructor Destroy; override;
@@ -46,7 +48,52 @@ type
     function getEntries: TParams; override;
   end;
 
+  { TCategory }
+
+  TCategory = class(TDbTable)
+
+    public
+
+    procedure createTable; override;
+    procedure addEntry(values: TKeyValue); override;
+    procedure updateEntry; override;
+    procedure deleteEntry; override;
+    function getEntries: TParams; override;
+  end;
+
 implementation
+
+{ TCategory }
+
+procedure TCategory.createTable;
+begin
+
+end;
+
+procedure TCategory.addEntry(values: TKeyValue);
+begin
+
+end;
+
+procedure TCategory.updateEntry;
+begin
+
+end;
+
+procedure TCategory.deleteEntry;
+begin
+
+end;
+
+function TCategory.getEntries: TParams;
+begin
+
+end;
+
+function TDbTable.getTableName: string;
+begin
+  Result := tblName;
+end;
 
 // Constructor
 constructor TDbTable.Create;
@@ -69,7 +116,7 @@ end;
 procedure TItem.createTable;
 begin
   query :=
-    'CREATE TABLE IF NOT EXISTS tblReceipt ' +
+    'CREATE TABLE IF NOT EXISTS tblItem ' +
     '(receipt_id INTEGER AUTO_INCREMENT, ' +
     'description VARCHAR(200) NOT NULL, ' + 'amount DOUBLE(20) NOT NULL, ' +
     'category_id INTEGER DEFAULT 1, ' + 'receipt_date DATETIME, ' +
@@ -88,7 +135,7 @@ begin
   category := values.KeyData['category'];
   date := values.KeyData['date'];
   query :=
-    'INSERT INTO tblReceipt (description, amount, category_id, receipt_date) ' +
+    'INSERT INTO tblItem (description, amount, category_id, receipt_date) ' +
     'VALUES ("'+desc+'", "'+amount+'", "'+category+'", "'+date+'");';
   FDb.execQuery(query);
 end;
@@ -105,7 +152,9 @@ end;
 
 function TItem.getEntries: TParams;
 begin
-  Result := nil;
+  query :=
+    'SELECT * FROM tblItem';
+  Result := FDb.selectQuery(query);
 end;
 
 end.
