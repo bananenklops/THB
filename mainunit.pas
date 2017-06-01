@@ -6,27 +6,67 @@ interface
 
 uses
   Classes, SysUtils, sqlite3conn, FileUtil, Forms, Controls, Graphics, Dialogs,
-  StdCtrls, fNewItem;
+  StdCtrls, fNewItem, fNewCategory, mDbTable;
 
 type
 
   { TFormMain }
 
   TFormMain = class(TForm)
-    Button1: TButton;
+    btnNewItem: TButton;
+    btnNewCategory: TButton;
+    procedure btnNewItemClick(Sender: TObject);
+    procedure btnNewCategoryClick(Sender: TObject);
+    procedure FormShow(Sender: TObject);
   private
-    formNewItem: TFormNewItem;
+    FformNewItem: TFormNewItem;
+    FformNewCategory: TFormNewCategory;
+    FItemTable : TItem;
+    FCategoryTable : TCategory;
   public
-    { public declarations }
+    destructor Destroy; override;
   end;
 
 var
-  Form1: TFormMain;
+  FormMain: TFormMain;
 
 implementation
 
 {$R *.lfm}
 
+
+{ TFormMain }
+
+procedure TFormMain.btnNewItemClick(Sender: TObject);
+begin
+  FformNewItem := TFormNewItem.Create(nil);
+  FformNewItem.Item := FItemTable;
+  FformNewItem.Category := FCategoryTable;
+  FformNewItem.ShowModal;
+  FreeAndNil(FformNewItem);
+end;
+
+procedure TFormMain.btnNewCategoryClick(Sender: TObject);
+begin
+  FformNewCategory := TFormNewCategory.Create(nil);
+  FformNewCategory.Category := FCategoryTable;
+  FformNewCategory.ShowModal;
+  FreeAndNil(FformNewCategory);
+end;
+
+procedure TFormMain.FormShow(Sender: TObject);
+begin
+  FItemTable := TItem.Create;
+  FCategoryTable := TCategory.Create;
+end;
+
+destructor TFormMain.Destroy;
+begin
+  FItemTable.Free;
+  FCategoryTable.Free;
+
+  inherited Destroy;
+end;
 
 end.
 

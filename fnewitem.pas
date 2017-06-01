@@ -26,10 +26,13 @@ type
     procedure btnAbortClick(Sender: TObject);
     procedure btnSaveClick(Sender: TObject);
     procedure FormCreate(Sender: TObject);
+    procedure FormShow(Sender: TObject);
   private
-    FReceipt: TItem;
+    FItem: TItem;
+    FCategory: TCategory;
   public
-    { public declarations }
+    property Item: TItem read FItem write FItem;
+    property Category: TCategory read FCategory write FCategory;
   end;
 
 var
@@ -48,22 +51,30 @@ end;
 
 procedure TFormNewItem.btnSaveClick(Sender: TObject);
 type
-  Ttest = specialize TFPGMap<String,String>;
+  TKeyValueList = specialize TFPGMap<string, string>;
 var
-  test: Ttest;
+  kVList: TKeyValueList;
 begin
-  test := Ttest.Create;
-  test.Add('description',txtItemDesc.Text);
-  test.Add('amount',txtItemAmount.Text);
-  test.Add('category','1');
-  test.Add('date',DateTimeToStr(Now));
-  FReceipt := TItem.Create;
-  FReceipt.addEntry(test);
+  kVList := TKeyValueList.Create;
+  try
+    kVList.Add('description', txtItemDesc.Text);
+    kVList.Add('amount', txtItemAmount.Text);
+    kVList.Add('category', '1');
+    kVList.Add('date', DateTimeToStr(Now));
+  finally
+    kVList.Free;
+  end;
+  Item.addEntry(kVList);
 
   Close;
 end;
 
 procedure TFormNewItem.FormCreate(Sender: TObject);
+begin
+
+end;
+
+procedure TFormNewItem.FormShow(Sender: TObject);
 begin
 
 end;

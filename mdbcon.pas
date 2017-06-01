@@ -11,17 +11,14 @@ type
   TDbCon = class(TObject)
   private
 
-    dbCon: TSQLite3Connection;
-    dbTrans: TSQLTransaction;
-    dbQuery: TSQLQuery;
+    FdbCon: TSQLite3Connection;
+    FdbTrans: TSQLTransaction;
   public
 
     constructor Create(db: string);
     destructor Destroy; override;
-    procedure execQuery(query: string);
-    procedure updateQuery(table: string; column: string; Value: string;
-      whereKey: string; whereValue: string);
-    function selectQuery(query: string): TParams;
+    procedure execQuery(dbQuery: TSQLQuery);
+    function selectQuery(dbQuery: TSQLQuery): TSQLQuery;
   protected
   end;
 
@@ -39,17 +36,16 @@ begin
 
     if RegexObj.Exec(db) then
     begin
-      dbCon := TSQLite3Connection.Create(nil);
-      dbTrans := TSQLTransaction.Create(nil);
-      dbQuery := TSQLQuery.Create(nil);
+      FdbCon := TSQLite3Connection.Create(nil);
+      FdbTrans := TSQLTransaction.Create(nil);
 
-      dbCon.DatabaseName := db;
-      dbTrans.DataBase := dbCon;
-      dbQuery.Transaction := dbTrans;
-      dbCon.Open;
-      if not dbCon.Connected then
+      FdbCon.DatabaseName := db;
+      FdbTrans.DataBase := FdbCon;
+
+      FdbCon.Open;
+      if not FdbCon.Connected then
         ShowMessage('database connection could not be established');
-      dbCon.Close;
+      FdbCon.Close;
     end
     else
     begin
@@ -66,27 +62,26 @@ end;
 // Destructor
 destructor TDbCon.Destroy;
 begin
-  dbCon.Free;
-  dbTrans.Free;
-  dbQuery.Free;
+  FdbCon.Free;
+  FdbTrans.Free;
 
   inherited Destroy;
 end;
 
-procedure TDbCon.execQuery(query: string);
+procedure TDbCon.execQuery(dbQuery: TSQLQuery);
 begin
   try
     // Verbindung herstellen
-    dbCon.Open;
+    FdbCon.Open;
 
     // Query ausfuehren
-    dbQuery.Close;
-    dbQuery.SQL.Text := query;
+    dbQuery.Transaction := FdbTrans;
+
     dbQuery.ExecSQL;
-    dbTrans.Commit;
+    FdbTrans.Commit;
 
     // Verbindung schliessen
-    dbCon.Close;
+    FdbCon.Close;
   except
     on E: EDatabaseError do
     begin
@@ -96,52 +91,21 @@ begin
   end;
 end;
 
-procedure TDbCon.updateQuery(table: string; column: string; Value: string;
-  whereKey: string; whereValue: string);
+function TDbCon.selectQuery(dbQuery: TSQLQuery): TSQLQuery;
 begin
   try
     // Verbindung herstellen
-    dbCon.Open;
+    FdbCon.Open;
 
     // Query ausfuehren
-    dbQuery.Close;
-    dbQuery.SQL.Text :=
-      'UPDATE :table SET :column = :value WHERE :whereKey = :whereValue;';
-    dbQuery.ParamByName('table').AsString := table;
-    dbQuery.ParamByName('column').AsString := column;
-    dbQuery.ParamByName('value').AsString := Value;
-    dbQuery.ParamByName('whereKey').AsString := whereKey;
-    dbQuery.ParamByName('whereValue').AsString := whereValue;
-    dbQuery.ExecSQL;
-    dbTrans.Commit;
-
-    // Verbindung schliessen
-    dbCon.Close;
-  except
-    on E: EDatabaseError do
-    begin
-      MessageDlg('Error', 'A database error has occurred. Technical error message: ' +
-        E.Message, mtError, [mbOK], 0);
-    end;
-  end;
-end;
-
-function TDbCon.selectQuery(query: string): TParams;
-begin
-  try
-    // Verbindung herstellen
-    dbCon.Open;
-
-    // Query ausfuehren
-    dbQuery.Close;
-    dbQuery.SQL.Text := query;
+    dbQuery.Transaction := FdbTrans;
     dbQuery.Open;
 
     // Daten in Variable speichern
-    Result := dbQuery.Params;
+    Result := dbQuery;
 
     // Verbindung schliessen
-    dbCon.Close;
+    FdbCon.Close;
   except
     on E: EDatabaseError do
     begin

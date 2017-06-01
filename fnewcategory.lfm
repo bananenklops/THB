@@ -1,0 +1,70 @@
+object FormNewCategory: TFormNewCategory
+  Left = 604
+  Height = 209
+  Top = 370
+  Width = 289
+  Caption = 'Neue Kategorie'
+  ClientHeight = 209
+  ClientWidth = 289
+  LCLVersion = '1.6.4.0'
+  object txtDescription: TEdit
+    Left = 128
+    Height = 23
+    Top = 8
+    Width = 144
+    TabOrder = 0
+  end
+  object txtPriority: TEdit
+    Left = 128
+    Height = 23
+    Top = 72
+    Width = 144
+    TabOrder = 1
+  end
+  object btnSave: TButton
+    Left = 8
+    Height = 25
+    Top = 168
+    Width = 75
+    Caption = 'Speichern'
+    OnClick = btnSaveClick
+    TabOrder = 2
+  end
+  object btnAbort: TButton
+    Left = 197
+    Height = 25
+    Top = 168
+    Width = 75
+    Caption = 'Abbrechen'
+    OnClick = btnAbortClick
+    TabOrder = 3
+  end
+  object lblDescription: TLabel
+    Left = 8
+    Height = 23
+    Top = 8
+    Width = 92
+    Caption = 'Bezeichnung'
+    Font.CharSet = ANSI_CHARSET
+    Font.Height = -19
+    Font.Name = 'Arial Narrow'
+    Font.Pitch = fpVariable
+    Font.Quality = fqDraft
+    ParentColor = False
+    ParentFont = False
+  end
+  object lblPriority: TLabel
+    Left = 8
+    Height = 23
+    Top = 72
+    Width = 50
+    Caption = 'Priorität'
+    Font.CharSet = ANSI_CHARSET
+    Font.Height = -19
+    Font.Name = 'Arial Narrow'
+    Font.Pitch = fpVariable
+    Font.Quality = fqDraft
+    ParentColor = False
+    ParentFont = False
+  end
+end

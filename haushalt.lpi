@@ -39,7 +39,7 @@
         <PackageName Value="LCL"/>
       </Item3>
     </RequiredPackages>
-    <Units Count="7">
+    <Units Count="9">
       <Unit0>
         <Filename Value="haushalt.lpr"/>
         <IsPartOfProject Value="True"/>
@@ -61,6 +61,7 @@
         <Filename Value="fnewitem.pas"/>
         <IsPartOfProject Value="True"/>
         <ComponentName Value="FormNewItem"/>
+        <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
         <UnitName Value="fNewItem"/>
       </Unit3>
@@ -77,6 +78,18 @@
         <IsPartOfProject Value="True"/>
         <UnitName Value="mDbTable"/>
       </Unit6>
+      <Unit7>
+        <Filename Value="mrecord.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="mRecord"/>
+      </Unit7>
+      <Unit8>
+        <Filename Value="fnewcategory.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="FormNewCategory"/>
+        <ResourceBaseClass Value="Form"/>
+        <UnitName Value="fNewCategory"/>
+      </Unit8>
     </Units>
   </ProjectOptions>
   <CompilerOptions>
