@@ -62,8 +62,8 @@ end;
 
 destructor TFormMain.Destroy;
 begin
-  FItemTable.Free;
-  FCategoryTable.Free;
+  FreeAndNil(FItemTable);
+  FreeAndNil(FCategoryTable);
 
   inherited Destroy;
 end;

@@ -49,7 +49,7 @@ begin
     kVList.Add('priority', txtPriority.Text);
     Category.addEntry(kVList)
   finally
-    kVList.Free;
+    FreeAndNil(kVList);
   end;
 
   Close;

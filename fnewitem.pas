@@ -62,7 +62,7 @@ begin
     kVList.Add('category', '1');
     kVList.Add('date', DateTimeToStr(Now));
   finally
-    kVList.Free;
+    FreeAndNil(kVList);
   end;
   Item.addEntry(kVList);
 

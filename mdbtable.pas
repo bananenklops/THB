@@ -56,6 +56,8 @@ type
   { TCategory }
 
   TCategory = class(TDbTable)
+  private
+    FCategory: TCategoryRecord;
   public
     procedure createTable; override;
     procedure addEntry(values: TKeyValue); override;
@@ -81,7 +83,7 @@ begin
       'PRIMARY KEY (category_id));';
     FDb.execQuery(FDbQuery);
   finally
-    FDbQuery.Free;
+    FreeAndNil(FDbQuery);
   end;
 
 end;
@@ -89,7 +91,6 @@ end;
 procedure TCategory.addEntry(values: TKeyValue);
 var
   desc, priority: string;
-  category: TCategoryRecord;
 begin
   FDbQuery := TSQLQuery.Create(nil);
   try
@@ -102,18 +103,9 @@ begin
     FDbQuery.ParamByName('prio').AsInteger := priority.ToInteger;
 
     FDb.execQuery(FDbQuery);
-
-    category := TCategoryRecord.Create;
-    try
-       category.Description:=desc;
-       category.Priority:=priority.ToInteger;
-
-       RecordList.Add(category);
-    finally
-      category.Free;
-    end;
+    getEntries;
   finally
-    FDbQuery.Free;
+    FreeAndNil(FDbQuery);
   end;
 
 end;
@@ -130,14 +122,30 @@ end;
 
 procedure TCategory.getEntries;
 begin
+  FRecordList.Clear;
+
   FDbQuery := TSQLQuery.Create(nil);
   try
     FDbQuery.SQL.Text :=
       'SELECT * FROM tblCategory';
     FDbQuery := FDb.selectQuery(FDbQuery);
-    //temp.
+
+    while not FDbQuery.EOF do begin
+      FCategory := TCategoryRecord.Create;
+      try
+        FCategory.Id := FDbQuery.Fields[0].AsInteger;
+        FCategory.Description := FDbQuery.Fields[1].AsString;
+        FCategory.Priority := FDbQuery.Fields[2].AsInteger;
+        FCategory.CreationDateTime := FDbQuery.Fields[3].AsDateTime;
+
+        FRecordList.Add(FCategory);
+      finally
+        FreeAndNil(FCategory);
+      end;
+    end;
+
   finally
-    FDbQuery.Free;
+    FreeAndNil(FDbQuery);
   end;
 
 end;
@@ -160,6 +168,7 @@ end;
 // Constructor
 constructor TDbTable.Create;
 begin
+  FRecordList := TRecordList.Create;
   FDb := TdbCon.Create('./haushalt.db');
   self.createTable;
 
@@ -169,7 +178,8 @@ end;
 // Destructor
 destructor TDbTable.Destroy;
 begin
-  FDb.Free;
+  FreeAndNil(FRecordList);
+  FreeAndNil(FDb);
 
   inherited Destroy;
 end;
@@ -190,7 +200,7 @@ begin
 
     FDb.execQuery(FDbQuery);
   finally
-    FDbQuery.Free;
+    FreeAndNil(FDbQuery);
   end;
 
 end;
@@ -215,7 +225,7 @@ begin
     FDbQuery.ParamByName('date').AsDate := StrToDate(date);
     FDb.execQuery(FDbQuery);
   finally
-    FDbQuery.Free;
+    FreeAndNil(FDbQuery);
   end;
 
 end;
@@ -257,13 +267,13 @@ begin
         dbRecord.setCreationDateTime(FDbQuery.Fields[5].AsDateTime);
         dbRecord.OnSave := @ListItemSave;
         dbRecord.setFType(itemType);
-        recordList.Add(dbRecord);
+        FRecordList.Add(dbRecord);
       finally
-        dbRecord.Free;
+        FreeAndNil(dbRecord);
       end;
     end;
   finally
-    FDbQuery.Free;
+    FreeAndNil(FDbQuery);
   end;
 
 end;

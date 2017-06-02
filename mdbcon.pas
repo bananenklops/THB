@@ -52,7 +52,7 @@ begin
       ShowMessage('database file not valid');
     end;
   finally
-    RegexObj.Free;
+    FreeAndNil(RegexObj);
   end;
 
   // Constructor von Elternobjekt ausführen:
@@ -62,8 +62,8 @@ end;
 // Destructor
 destructor TDbCon.Destroy;
 begin
-  FdbCon.Free;
-  FdbTrans.Free;
+  FreeAndNil(FdbCon);
+  FreeAndNil(FdbTrans);
 
   inherited Destroy;
 end;

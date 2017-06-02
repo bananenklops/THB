@@ -13,13 +13,16 @@ type
 
   TRecord = class abstract(TObject)
   protected
-    Fid: integer;
-    creationDateTime: TDateTime;
+    FId: integer;
+    FCreationDateTime: TDateTime;
   public
     procedure saveRecord; virtual; abstract;
     procedure deleteRecord; virtual; abstract;
     procedure setId(id: integer);
     procedure setCreationDateTime(cdt: TDateTime);
+
+    property Id: integer read FId write FId;
+    property CreationDateTime: TDateTime read FCreationDateTime write FCreationDateTime;
   end;
 
   { TItemRecord }
@@ -94,12 +97,12 @@ end;
 
 procedure TRecord.setId(id: integer);
 begin
-  self.Fid := id;
+  self.FId := id;
 end;
 
 procedure TRecord.setCreationDateTime(cdt: TDateTime);
 begin
-  creationDateTime := cdt;
+  FCreationDateTime := cdt;
 end;
 
 { TItemRecord }
