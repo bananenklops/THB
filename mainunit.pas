@@ -21,8 +21,8 @@ type
   private
     FformNewItem: TFormNewItem;
     FformNewCategory: TFormNewCategory;
-    FItemTable : TItem;
-    FCategoryTable : TCategory;
+    FItemTable: TItem;
+    FCategoryTable: TCategory;
   public
     destructor Destroy; override;
   end;

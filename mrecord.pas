@@ -42,12 +42,6 @@ type
     procedure saveRecord; override;
     procedure deleteRecord; override;
 
-    procedure setDescription(desc: string);
-    procedure setCategory(cat: integer);
-    procedure setAmount(amount: double);
-    procedure setDate(date: TDate);
-    procedure setFType(itType: TItemType);
-
     function isReceivt: boolean;
     function isCosts: boolean;
 
@@ -117,31 +111,6 @@ end;
 procedure TItemRecord.deleteRecord;
 begin
 
-end;
-
-procedure TItemRecord.setDescription(desc: string);
-begin
-  description := desc;
-end;
-
-procedure TItemRecord.setCategory(cat: integer);
-begin
-  FCategory := cat;
-end;
-
-procedure TItemRecord.setAmount(amount: double);
-begin
-  self.Famount := amount;
-end;
-
-procedure TItemRecord.setDate(date: TDate);
-begin
-  self.Fdate := date;
-end;
-
-procedure TItemRecord.setFType(itType: TItemType);
-begin
-  FType := itType;
 end;
 
 function TItemRecord.isReceivt: boolean;

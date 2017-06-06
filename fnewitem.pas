@@ -59,12 +59,13 @@ begin
   try
     kVList.Add('description', txtItemDesc.Text);
     kVList.Add('amount', txtItemAmount.Text);
-    kVList.Add('category', '1');
+    kVList.Add('category', TCategoryRecord(
+      cbbItemCategory.Items.Objects[cbbItemCategory.ItemIndex]).Id.ToString);
     kVList.Add('date', DateTimeToStr(Now));
+    Item.addEntry(kVList);
   finally
     FreeAndNil(kVList);
   end;
-  Item.addEntry(kVList);
 
   Close;
 end;
@@ -76,17 +77,17 @@ end;
 
 procedure TFormNewItem.FormShow(Sender: TObject);
 var
-  categoryRecord: TCategoryRecord;
   size, i: integer;
+  categoryRecord: TCategoryRecord;
 begin
+  FCategory.getEntries;
+
   size := FCategory.RecordList.Count;
-
-  for i := 0 to (size - 1) do begin
-    categoryRecord := FCategory.RecordList[i] as TCategoryRecord;
-
+  for i := 0 to (size - 1) do
+  begin
+    categoryRecord := TCategoryRecord(FCategory.RecordList.Items[i]);
     cbbItemCategory.AddItem(categoryRecord.Description, categoryRecord);
   end;
 end;
 
 end.
-

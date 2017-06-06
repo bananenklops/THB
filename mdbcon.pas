@@ -71,14 +71,17 @@ end;
 procedure TDbCon.execQuery(dbQuery: TSQLQuery);
 begin
   try
+
     // Verbindung herstellen
     FdbCon.Open;
 
     // Query ausfuehren
     dbQuery.Transaction := FdbTrans;
+    FdbTrans.Active:=true;
 
     dbQuery.ExecSQL;
     FdbTrans.Commit;
+    FdbTrans.Active:=false;
 
     // Verbindung schliessen
     FdbCon.Close;
@@ -98,13 +101,14 @@ begin
     FdbCon.Open;
 
     // Query ausfuehren
-    dbQuery.Transaction := FdbTrans;
+    dbQuery.DataBase := FdbCon;
+
+    // Verbindung schliessen
+    FdbCon.Close;
 
     // Daten in Variable speichern
     Result := dbQuery;
 
-    // Verbindung schliessen
-    FdbCon.Close;
   except
     on E: EDatabaseError do
     begin

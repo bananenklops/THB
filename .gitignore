@@ -8,6 +8,5 @@
 !*.dfm
 !*.res
 # Und Speziell benötigte Dateien (DB, dll)
-!haushalt.db
 !sqlite3.dll
 !haushalt_uml.asta
