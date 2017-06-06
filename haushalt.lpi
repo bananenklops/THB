@@ -86,6 +86,7 @@
         <Filename Value="fnewcategory.pas"/>
         <IsPartOfProject Value="True"/>
         <ComponentName Value="FormNewCategory"/>
+        <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
         <UnitName Value="fNewCategory"/>
       </Unit8>

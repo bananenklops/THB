@@ -6,7 +6,7 @@ interface
 
 uses
   Classes, SysUtils, FileUtil, DateTimePicker, Forms, Controls, Graphics,
-  Dialogs, StdCtrls, mDbTable, fgl;
+  Dialogs, StdCtrls, mDbTable, mRecord, fgl;
 
 type
 
@@ -75,8 +75,17 @@ begin
 end;
 
 procedure TFormNewItem.FormShow(Sender: TObject);
+var
+  categoryRecord: TCategoryRecord;
+  size, i: integer;
 begin
+  size := FCategory.RecordList.Count;
 
+  for i := 0 to (size - 1) do begin
+    categoryRecord := FCategory.RecordList[i] as TCategoryRecord;
+
+    cbbItemCategory.AddItem(categoryRecord.Description, categoryRecord);
+  end;
 end;
 
 end.

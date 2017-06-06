@@ -99,7 +99,6 @@ begin
 
     // Query ausfuehren
     dbQuery.Transaction := FdbTrans;
-    dbQuery.Open;
 
     // Daten in Variable speichern
     Result := dbQuery;

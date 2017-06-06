@@ -5,7 +5,7 @@ unit mDbTable;
 interface
 
 uses
-  Classes, SysUtils, mDbCon, DB, fgl, mRecord, sqldb;
+  Classes, SysUtils, mDbCon, DB, fgl, mRecord, sqldb, Dialogs;
 
 type
 
@@ -68,6 +68,41 @@ type
 
 implementation
 
+{ TDbTable }
+
+procedure TDbTable.ListItemSave(Sender: TObject);
+var
+  lcItem: TItemRecord;
+begin
+  lcItem := TitemRecord(Sender);
+end;
+
+
+function TDbTable.getTableName: string;
+begin
+  Result := tblName;
+end;
+
+// Constructor
+constructor TDbTable.Create;
+begin
+  FRecordList := TRecordList.Create;
+  FDb := TdbCon.Create('./haushalt.db');
+  createTable;
+  getEntries;
+
+  inherited Create;
+end;
+
+// Destructor
+destructor TDbTable.Destroy;
+begin
+  FreeAndNil(FRecordList);
+  FreeAndNil(FDb);
+
+  inherited Destroy;
+end;
+
 { TCategory }
 
 procedure TCategory.createTable;
@@ -129,6 +164,7 @@ begin
     FDbQuery.SQL.Text :=
       'SELECT * FROM tblCategory';
     FDbQuery := FDb.selectQuery(FDbQuery);
+    FDbQuery.Open;
 
     while not FDbQuery.EOF do begin
       FCategory := TCategoryRecord.Create;
@@ -139,6 +175,8 @@ begin
         FCategory.CreationDateTime := FDbQuery.Fields[3].AsDateTime;
 
         FRecordList.Add(FCategory);
+
+        FDbQuery.Next;
       finally
         FreeAndNil(FCategory);
       end;
@@ -148,40 +186,6 @@ begin
     FreeAndNil(FDbQuery);
   end;
 
-end;
-
-{ TDbTable }
-
-procedure TDbTable.ListItemSave(Sender: TObject);
-var
-  lcItem: TItemRecord;
-begin
-  lcItem := TitemRecord(Sender);
-end;
-
-
-function TDbTable.getTableName: string;
-begin
-  Result := tblName;
-end;
-
-// Constructor
-constructor TDbTable.Create;
-begin
-  FRecordList := TRecordList.Create;
-  FDb := TdbCon.Create('./haushalt.db');
-  self.createTable;
-
-  inherited Create;
-end;
-
-// Destructor
-destructor TDbTable.Destroy;
-begin
-  FreeAndNil(FRecordList);
-  FreeAndNil(FDb);
-
-  inherited Destroy;
 end;
 
 { TItem }
