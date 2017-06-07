@@ -1,48 +1,57 @@
 object FormNewCategory: TFormNewCategory
-  Left = 604
-  Height = 209
-  Top = 370
+  Left = 1099
+  Height = 232
+  Top = 396
   Width = 289
   Caption = 'Neue Kategorie'
-  ClientHeight = 209
+  ClientHeight = 232
   ClientWidth = 289
+  OnShow = FormShow
   LCLVersion = '1.6.4.0'
+  object GroupBox1: TGroupBox
+    Left = 8
+    Height = 80
+    Top = 120
+    Width = 273
+    Caption = 'Neu'
+    TabOrder = 4
+  end
   object txtDescription: TEdit
     Left = 128
     Height = 23
-    Top = 8
+    Top = 136
     Width = 144
     TabOrder = 0
   end
   object txtPriority: TEdit
     Left = 128
     Height = 23
-    Top = 72
+    Top = 168
     Width = 144
     TabOrder = 1
   end
   object btnSave: TButton
     Left = 8
     Height = 25
-    Top = 168
+    Top = 200
     Width = 75
     Caption = 'Speichern'
     OnClick = btnSaveClick
     TabOrder = 2
   end
   object btnAbort: TButton
-    Left = 197
+    Left = 208
     Height = 25
-    Top = 168
+    Top = 200
     Width = 75
-    Caption = 'Abbrechen'
+    Caption = 'Schließen'
     OnClick = btnAbortClick
     TabOrder = 3
   end
   object lblDescription: TLabel
-    Left = 8
+    Left = 16
     Height = 23
-    Top = 8
+    Top = 136
     Width = 92
     Caption = 'Bezeichnung'
     Font.CharSet = ANSI_CHARSET
@@ -54,9 +63,9 @@ object FormNewCategory: TFormNewCategory
     ParentFont = False
   end
   object lblPriority: TLabel
-    Left = 8
+    Left = 16
     Height = 23
-    Top = 72
+    Top = 168
     Width = 50
     Caption = 'Priorität'
     Font.CharSet = ANSI_CHARSET
@@ -66,5 +75,21 @@ object FormNewCategory: TFormNewCategory
     Font.Quality = fqDraft
     ParentColor = False
     ParentFont = False
+  end
+  object lis_categories: TListBox
+    Left = 8
+    Height = 112
+    Top = 8
+    Width = 272
+    ItemHeight = 0
+    TabOrder = 5
+  end
+  object btn_delete: TButton
+    Left = 106
+    Height = 25
+    Top = 200
+    Width = 75
+    Caption = 'Löschen'
+    TabOrder = 6
   end
 end

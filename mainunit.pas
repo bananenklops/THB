@@ -78,6 +78,7 @@ begin
 
   size := FItemTable.RecordList.Count;
 
+  lis_items.Clear;
   for i := 0 to (size - 1) do
   begin
     item := TItemRecord(FItemTable.RecordList.Items[i]);

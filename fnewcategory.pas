@@ -6,7 +6,7 @@ interface
 
 uses
   Classes, SysUtils, FileUtil, Forms, Controls, Graphics, Dialogs,
-  StdCtrls, mDbTable, fgl;
+  StdCtrls, mDbTable, mRecord, fgl;
 
 type
 
@@ -15,14 +15,20 @@ type
   TFormNewCategory = class(TForm)
     btnAbort: TButton;
     btnSave: TButton;
+    btn_delete: TButton;
+    GroupBox1: TGroupBox;
     lblDescription: TLabel;
     lblPriority: TLabel;
+    lis_categories: TListBox;
     txtDescription: TEdit;
     txtPriority: TEdit;
     procedure btnAbortClick(Sender: TObject);
     procedure btnSaveClick(Sender: TObject);
+    procedure FormShow(Sender: TObject);
   private
     FCategory: TCategory;
+
+    procedure loadList;
   public
     property Category: TCategory read FCategory write FCategory;
     { public declarations }
@@ -53,7 +59,26 @@ begin
       FreeAndNil(kVList);
   end;
 
-  Close;
+  loadList;
+end;
+
+procedure TFormNewCategory.FormShow(Sender: TObject);
+begin
+  loadList;
+end;
+
+procedure TFormNewCategory.loadList;
+var
+  size, i: integer;
+  categoryRecord: TCategoryRecord;
+begin
+  Category.getEntries;
+  lis_categories.Clear;
+  size := Category.RecordList.Count;
+  for i := 0 to (size - 1) do begin
+    categoryRecord := TCategoryRecord(Category.RecordList[i]);
+    lis_categories.AddItem(categoryRecord.Description, categoryRecord);
+  end;
 end;
 
 procedure TFormNewCategory.btnAbortClick(Sender: TObject);
