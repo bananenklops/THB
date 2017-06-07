@@ -24,7 +24,7 @@ type
   private
     FCategory: TCategory;
   public
-    property Category : TCategory read FCategory write FCategory;
+    property Category: TCategory read FCategory write FCategory;
     { public declarations }
   end;
 
@@ -39,7 +39,7 @@ implementation
 
 procedure TFormNewCategory.btnSaveClick(Sender: TObject);
 type
-  TKeyValueList = specialize TFPGMap<String,String>;
+  TKeyValueList = specialize TFPGMap<string, string>;
 var
   kVList: TKeyValueList;
 begin
@@ -47,9 +47,10 @@ begin
   try
     kVList.Add('description', txtDescription.Text);
     kVList.Add('priority', txtPriority.Text);
-    Category.addEntry(kVList)
+    Category.addEntry(kVList);
   finally
-    FreeAndNil(kVList);
+    if Assigned(kVList) then
+      FreeAndNil(kVList);
   end;
 
   Close;

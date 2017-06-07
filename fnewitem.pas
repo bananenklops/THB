@@ -64,7 +64,8 @@ begin
     kVList.Add('date', DateTimeToStr(Now));
     Item.addEntry(kVList);
   finally
-    FreeAndNil(kVList);
+    if Assigned(kVList) then
+      FreeAndNil(kVList);
   end;
 
   Close;

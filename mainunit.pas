@@ -6,7 +6,7 @@ interface
 
 uses
   Classes, SysUtils, sqlite3conn, FileUtil, Forms, Controls, Graphics, Dialogs,
-  StdCtrls, fNewItem, fNewCategory, mDbTable;
+  StdCtrls, fNewItem, fNewCategory, mDbTable, mRecord;
 
 type
 
@@ -15,6 +15,7 @@ type
   TFormMain = class(TForm)
     btnNewItem: TButton;
     btnNewCategory: TButton;
+    lis_items: TListBox;
     procedure btnNewItemClick(Sender: TObject);
     procedure btnNewCategoryClick(Sender: TObject);
     procedure FormShow(Sender: TObject);
@@ -23,6 +24,8 @@ type
     FformNewCategory: TFormNewCategory;
     FItemTable: TItem;
     FCategoryTable: TCategory;
+
+    procedure loadItemList;
   public
     destructor Destroy; override;
   end;
@@ -43,7 +46,9 @@ begin
   FformNewItem.Item := FItemTable;
   FformNewItem.Category := FCategoryTable;
   FformNewItem.ShowModal;
-  FreeAndNil(FformNewItem);
+  if Assigned(FformNewItem) then
+    FreeAndNil(FformNewItem);
+  loadItemList;
 end;
 
 procedure TFormMain.btnNewCategoryClick(Sender: TObject);
@@ -51,22 +56,43 @@ begin
   FformNewCategory := TFormNewCategory.Create(nil);
   FformNewCategory.Category := FCategoryTable;
   FformNewCategory.ShowModal;
-  FreeAndNil(FformNewCategory);
+  if Assigned(FformNewCategory) then
+    FreeAndNil(FformNewCategory);
 end;
 
 procedure TFormMain.FormShow(Sender: TObject);
 begin
   FItemTable := TItem.Create;
   FCategoryTable := TCategory.Create;
+
+  loadItemList;
+
+end;
+
+procedure TFormMain.loadItemList;
+var
+  item: TItemRecord;
+  size, i: integer;
+begin
+  FItemTable.getEntries;
+
+  size := FItemTable.RecordList.Count;
+
+  for i := 0 to (size - 1) do
+  begin
+    item := TItemRecord(FItemTable.RecordList.Items[i]);
+    lis_items.AddItem(item.Description, item);
+  end;
 end;
 
 destructor TFormMain.Destroy;
 begin
-  FreeAndNil(FItemTable);
-  FreeAndNil(FCategoryTable);
+  if Assigned(FItemTable) then
+    FreeAndNil(FItemTable);
+  if Assigned(FCategoryTable) then
+    FreeAndNil(FCategoryTable);
 
   inherited Destroy;
 end;
 
 end.
-

@@ -1,11 +1,11 @@
 object FormMain: TFormMain
-  Left = 440
-  Height = 80
-  Top = 390
-  Width = 269
+  Left = 730
+  Height = 306
+  Top = 420
+  Width = 361
   Caption = 'Haushaltsbuch'
-  ClientHeight = 80
-  ClientWidth = 269
+  ClientHeight = 306
+  ClientWidth = 361
   OnShow = FormShow
   LCLVersion = '1.6.4.0'
   object btnNewItem: TButton
@@ -25,5 +25,13 @@ object FormMain: TFormMain
     Caption = 'Kategorie erstellen'
     OnClick = btnNewCategoryClick
     TabOrder = 1
+  end
+  object lis_items: TListBox
+    Left = 136
+    Height = 288
+    Top = 8
+    Width = 216
+    ItemHeight = 0
+    TabOrder = 2
   end
 end

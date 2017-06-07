@@ -52,7 +52,8 @@ begin
       ShowMessage('database file not valid');
     end;
   finally
-    FreeAndNil(RegexObj);
+    if Assigned((RegexObj)) then
+      FreeAndNil(RegexObj);
   end;
 
   // Constructor von Elternobjekt ausführen:
@@ -62,8 +63,10 @@ end;
 // Destructor
 destructor TDbCon.Destroy;
 begin
-  FreeAndNil(FdbCon);
-  FreeAndNil(FdbTrans);
+  if Assigned(FdbCon) then
+    FreeAndNil(FdbCon);
+  if Assigned(FdbTrans) then
+    FreeAndNil(FdbTrans);
 
   inherited Destroy;
 end;
@@ -77,11 +80,11 @@ begin
 
     // Query ausfuehren
     dbQuery.Transaction := FdbTrans;
-    FdbTrans.Active:=true;
+    FdbTrans.Active := True;
 
     dbQuery.ExecSQL;
     FdbTrans.Commit;
-    FdbTrans.Active:=false;
+    FdbTrans.Active := False;
 
     // Verbindung schliessen
     FdbCon.Close;
