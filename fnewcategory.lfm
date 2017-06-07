@@ -1,5 +1,5 @@
 object FormNewCategory: TFormNewCategory
-  Left = 1099
+  Left = 750
   Height = 232
   Top = 396
   Width = 289
