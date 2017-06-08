@@ -24,6 +24,7 @@ type
     txtPriority: TEdit;
     procedure btnAbortClick(Sender: TObject);
     procedure btnSaveClick(Sender: TObject);
+    procedure btn_deleteClick(Sender: TObject);
     procedure FormShow(Sender: TObject);
   private
     FCategory: TCategory;
@@ -59,6 +60,17 @@ begin
       FreeAndNil(kVList);
   end;
 
+  loadList;
+  txtDescription.Text := '';
+  txtPriority.Text := '';
+end;
+
+procedure TFormNewCategory.btn_deleteClick(Sender: TObject);
+var
+  categoryRecord: TCategoryRecord;
+begin
+  categoryRecord := TCategoryRecord(lis_categories.Items.Objects[lis_categories.ItemIndex]);
+  categoryRecord.deleteRecord;
   loadList;
 end;
 

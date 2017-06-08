@@ -15,14 +15,19 @@ type
   protected
     FId: integer;
     FCreationDateTime: TDateTime;
+    FSaveEvent: TNotifyEvent;
+    FDeleteEvent: TNotifyEvent;
   public
-    procedure saveRecord; virtual; abstract;
-    procedure deleteRecord; virtual; abstract;
+    procedure saveRecord;
+    procedure deleteRecord;
     procedure setId(id: integer);
     procedure setCreationDateTime(cdt: TDateTime);
 
     property Id: integer read FId write FId;
     property CreationDateTime: TDateTime read FCreationDateTime write FCreationDateTime;
+
+    property OnSave: TNotifyEvent read FSaveEvent write FSaveEvent;
+    property OnDelete: TNotifyEvent read FDeleteEvent write FDeleteEvent;
   end;
 
   { TItemRecord }
@@ -36,12 +41,8 @@ type
     Famount: double;
     Fdate: TDate;
     FType: TItemType;
-    FSaveEvent: TNotifyEvent;
 
   public
-    procedure saveRecord; override;
-    procedure deleteRecord; override;
-
     function isReceivt: boolean;
     function isCosts: boolean;
 
@@ -51,7 +52,6 @@ type
     property Date: TDate read Fdate write Fdate;
     property ItemType: TItemType read FType write FType;
 
-    property OnSave: TNotifyEvent read FSaveEvent write FSaveEvent;
   end;
 
   { TCategoryRecord }
@@ -64,9 +64,6 @@ type
     FPriority: integer;
     FItemList: TItemList;
   public
-    procedure saveRecord; override;
-    procedure deleteRecord; override;
-
     property Description: string read FDescription write FDescription;
     property Priority: integer read FPriority write FPriority;
     property ItemList: TItemList read FItemList write FItemList;
@@ -77,17 +74,21 @@ implementation
 
 { TCategoryRecord }
 
-procedure TCategoryRecord.saveRecord;
-begin
-
-end;
-
-procedure TCategoryRecord.deleteRecord;
-begin
-
-end;
-
 { TRecord }
+
+procedure TRecord.saveRecord;
+begin
+  if not Assigned(FSaveEvent) then
+    exit;
+  FSaveEvent(Self);
+end;
+
+procedure TRecord.deleteRecord;
+begin
+  if not Assigned(FDeleteEvent) then
+    exit;
+  FDeleteEvent(self);
+end;
 
 procedure TRecord.setId(id: integer);
 begin
@@ -99,19 +100,9 @@ begin
   FCreationDateTime := cdt;
 end;
 
+{ TCategoryRecord }
+
 { TItemRecord }
-
-procedure TItemRecord.saveRecord;
-begin
-  if not Assigned(FSaveEvent) then
-    exit;
-  FSaveEvent(Self);
-end;
-
-procedure TItemRecord.deleteRecord;
-begin
-
-end;
 
 function TItemRecord.isReceivt: boolean;
 begin

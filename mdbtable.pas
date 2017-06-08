@@ -23,7 +23,8 @@ type
     tblName: string;
     FRecordList: TRecordList;
 
-    procedure ListItemSave(Sender: TObject);
+    procedure ListSave(Sender: TObject); virtual; abstract;
+    procedure ListDelete(Sender: TObject); virtual; abstract;
   public
 
     procedure createTable; virtual; abstract;
@@ -51,6 +52,8 @@ type
     procedure updateEntry; override;
     procedure deleteEntry; override;
     procedure getEntries; override;
+    procedure ListSave(Sender: TObject); override;
+    procedure ListDelete(Sender: TObject); override;
   end;
 
   { TCategory }
@@ -64,19 +67,15 @@ type
     procedure updateEntry; override;
     procedure deleteEntry; override;
     procedure getEntries; override;
+    procedure ListSave(Sender: TObject); override;
+    procedure ListDelete(Sender: TObject); override;
+
+    function getCategoryStringById(id:integer): string;
   end;
 
 implementation
 
 { TDbTable }
-
-procedure TDbTable.ListItemSave(Sender: TObject);
-var
-  lcItem: TItemRecord;
-begin
-  lcItem := TitemRecord(Sender);
-end;
-
 
 function TDbTable.getTableName: string;
 begin
@@ -185,6 +184,8 @@ begin
         FCategory.Description := FDbQuery.Fields[1].AsString;
         FCategory.Priority := FDbQuery.Fields[2].AsInteger;
         FCategory.CreationDateTime := FDbQuery.Fields[3].AsDateTime;
+        FCategory.OnSave := @ListSave;
+        FCategory.OnDelete := @ListDelete;
 
         FRecordList.Add(FCategory);
 
@@ -197,6 +198,52 @@ begin
   finally
     if Assigned(FDb) then
       FreeAndNil(FDb);
+  end;
+end;
+
+procedure TCategory.ListSave(Sender: TObject);
+begin
+
+end;
+
+procedure TCategory.ListDelete(Sender: TObject);
+var
+  lcRecord: TRecord;
+begin
+  lcRecord := TRecord(Sender);
+  FDb := TdbCon.Create('./haushalt.db');
+  try
+    FDbQuery := TSQLQuery.Create(nil);
+    try
+      FDbQuery.SQL.Text :=
+        'DELETE FROM tblCategory ' +
+        'WHERE category_id = :id;';
+      FDbQuery.ParamByName('id').AsInteger := lcRecord.Id;
+      FDb.execQuery(FDbQuery);
+    finally
+      if Assigned(FDbQuery) then
+        FreeAndNil(FDbQuery);
+    end;
+  finally
+    if Assigned(FDb) then
+      FreeAndNil(FDb);
+  end;
+end;
+
+function TCategory.getCategoryStringById(id: integer): string;
+var
+  size, i: integer;
+  categoryRecord: TCategoryRecord;
+begin
+  size := FRecordList.Count;
+  for i := 0 to (size - 1) do begin
+    categoryRecord := TCategoryRecord(FRecordList.Items[i]);
+    if not categoryRecord.Id = id then begin
+      Continue;
+    end else begin
+      Result := categoryRecord.Description;
+      exit;
+    end
   end;
 end;
 
@@ -297,7 +344,7 @@ begin
         dbRecord.Category := FDbQuery.Fields[3].AsInteger;
         dbRecord.Date := FDbQuery.Fields[4].AsDateTime;
         dbRecord.CreationDateTime := FDbQuery.Fields[5].AsDateTime;
-        dbRecord.OnSave := @ListItemSave;
+        dbRecord.OnSave := @ListSave;
         dbRecord.ItemType := itemType;
 
         FRecordList.Add(dbRecord);
@@ -312,6 +359,16 @@ begin
     if Assigned(FDb) then
       FreeAndNil(FDb);
   end;
+end;
+
+procedure TItem.ListSave(Sender: TObject);
+begin
+
+end;
+
+procedure TItem.ListDelete(Sender: TObject);
+begin
+
 end;
 
 end.

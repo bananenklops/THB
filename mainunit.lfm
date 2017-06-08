@@ -1,37 +1,88 @@
 object FormMain: TFormMain
-  Left = 730
-  Height = 306
+  Left = 743
+  Height = 309
   Top = 420
-  Width = 361
+  Width = 479
   Caption = 'Haushaltsbuch'
-  ClientHeight = 306
-  ClientWidth = 361
+  ClientHeight = 309
+  ClientWidth = 479
   OnShow = FormShow
   LCLVersion = '1.6.4.0'
   object btnNewItem: TButton
+    AnchorSideLeft.Control = Owner
+    AnchorSideTop.Control = Owner
     Left = 8
     Height = 25
     Top = 8
     Width = 110
+    BorderSpacing.Around = 8
     Caption = 'Posten erstellen'
     OnClick = btnNewItemClick
     TabOrder = 0
   end
   object btnNewCategory: TButton
+    AnchorSideLeft.Control = Owner
+    AnchorSideTop.Control = btnNewItem
+    AnchorSideTop.Side = asrBottom
     Left = 8
     Height = 25
-    Top = 40
+    Top = 41
     Width = 110
+    BorderSpacing.Around = 8
     Caption = 'Kategorie erstellen'
     OnClick = btnNewCategoryClick
     TabOrder = 1
   end
-  object lis_items: TListBox
-    Left = 136
-    Height = 288
+  object liv_items: TListView
+    AnchorSideLeft.Control = btnNewItem
+    AnchorSideLeft.Side = asrBottom
+    AnchorSideTop.Control = Owner
+    AnchorSideRight.Control = Owner
+    AnchorSideRight.Side = asrBottom
+    AnchorSideBottom.Control = Owner
+    AnchorSideBottom.Side = asrBottom
+    Left = 126
+    Height = 293
     Top = 8
-    Width = 216
-    ItemHeight = 0
+    Width = 345
+    Anchors = [akTop, akLeft, akRight, akBottom]
+    AutoSort = False
+    AutoWidthLastColumn = True
+    BorderSpacing.Around = 8
+    Columns = <    
+      item
+        AutoSize = True
+        Caption = 'Bezeichnung'
+        Width = 57
+      end    
+      item
+        AutoSize = True
+        Caption = 'Kategorie'
+        Width = 61
+      end    
+      item
+        AutoSize = True
+        Caption = 'Datum'
+        Width = 61
+      end    
+      item
+        Caption = 'Betrag'
+        Width = 80
+      end>
+    GridLines = True
+    Items.LazData = {
+      C800000004000000FFFFFFFFFFFFFFFFFFFFFFFF000000000A00000045696E74
+      72C3A4676530FFFFFFFFFFFFFFFFFFFFFFFF000000000A00000045696E7472C3
+      A4676531FFFFFFFFFFFFFFFFFFFFFFFF040000000A00000045696E7472C3A467
+      65320A00000045696E7472C3A46765330A00000045696E7472C3A46765340A00
+      000045696E7472C3A46765350A00000045696E7472C3A4676537FFFFFFFFFFFF
+      FFFFFFFFFFFF000000000A00000045696E7472C3A4676536FFFFFFFFFFFFFFFF
+      FFFFFFFFFFFFFFFF
+    }
+    ParentShowHint = False
+    ReadOnly = True
+    RowSelect = True
     TabOrder = 2
+    ViewStyle = vsReport
   end
 end

@@ -90,6 +90,7 @@ object FormNewCategory: TFormNewCategory
     Top = 200
     Width = 75
     Caption = 'Löschen'
+    OnClick = btn_deleteClick
     TabOrder = 6
   end
 end

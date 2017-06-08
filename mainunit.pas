@@ -6,7 +6,8 @@ interface
 
 uses
   Classes, SysUtils, sqlite3conn, FileUtil, Forms, Controls, Graphics, Dialogs,
-  StdCtrls, fNewItem, fNewCategory, mDbTable, mRecord;
+  StdCtrls, fNewItem, fNewCategory, mDbTable, mRecord, LCLIntf, LCLType,
+  ComCtrls;
 
 type
 
@@ -15,7 +16,7 @@ type
   TFormMain = class(TForm)
     btnNewItem: TButton;
     btnNewCategory: TButton;
-    lis_items: TListBox;
+    liv_items: TListView;
     procedure btnNewItemClick(Sender: TObject);
     procedure btnNewCategoryClick(Sender: TObject);
     procedure FormShow(Sender: TObject);
@@ -70,19 +71,38 @@ begin
 end;
 
 procedure TFormMain.loadItemList;
+const
+  MAX_TABS = 4;
+  Tab = #32;
 var
   item: TItemRecord;
   size, i: integer;
+  categoryString: string;
+  Tabulators: array[0..MAX_TABS] of Integer;
+  li: TListItem;
 begin
+  Tabulators[0] := 70;
+  Tabulators[1] := 120;
+  Tabulators[2] := 100;
+  Tabulators[3] := 80;
+  //lis_items.TabWidth := 1;
+  //SendMessage(lis_items.Handle, LBS_, MAX_TABS, Longint(@Tabulators));
   FItemTable.getEntries;
 
   size := FItemTable.RecordList.Count;
 
-  lis_items.Clear;
+  liv_items.Clear;
   for i := 0 to (size - 1) do
   begin
     item := TItemRecord(FItemTable.RecordList.Items[i]);
-    lis_items.AddItem(item.Description, item);
+    categoryString := FCategoryTable.getCategoryStringById(item.Category);
+
+    li:=liv_items.Items.Add;
+    li.Caption:=item.Description;
+    li.SubItems.Add(categoryString);
+    li.SubItems.Add(DateToStr(item.Date));
+    li.SubItems.Add(item.Amount.ToString);
+
   end;
 end;
 
