@@ -1,7 +1,7 @@
 object FormMain: TFormMain
-  Left = 743
+  Left = 601
   Height = 309
-  Top = 420
+  Top = 328
   Width = 479
   Caption = 'Haushaltsbuch'
   ClientHeight = 309
@@ -51,23 +51,20 @@ object FormMain: TFormMain
     BorderSpacing.Around = 8
     Columns = <    
       item
-        AutoSize = True
         Caption = 'Bezeichnung'
-        Width = 57
+        Width = 100
       end    
       item
-        AutoSize = True
         Caption = 'Kategorie'
-        Width = 61
+        Width = 100
       end    
       item
-        AutoSize = True
         Caption = 'Datum'
-        Width = 61
+        Width = 70
       end    
       item
         Caption = 'Betrag'
-        Width = 80
+        Width = 71
       end>
     GridLines = True
     Items.LazData = {

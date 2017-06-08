@@ -1,7 +1,7 @@
 object FormNewItem: TFormNewItem
-  Left = 688
+  Left = 881
   Height = 199
-  Top = 394
+  Top = 355
   Width = 315
   Caption = 'Neuer Posten'
   ClientHeight = 199
@@ -27,7 +27,7 @@ object FormNewItem: TFormNewItem
     Left = 136
     Height = 23
     Top = 88
-    Width = 169
+    Width = 137
     ItemHeight = 15
     TabOrder = 2
   end
@@ -126,5 +126,14 @@ object FormNewItem: TFormNewItem
     Font.Quality = fqDraft
     ParentColor = False
     ParentFont = False
+  end
+  object btn_addCategory: TButton
+    Left = 278
+    Height = 25
+    Top = 88
+    Width = 27
+    Caption = '+'
+    OnClick = btn_addCategoryClick
+    TabOrder = 6
   end
 end

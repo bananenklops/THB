@@ -23,6 +23,8 @@ type
     tblName: string;
     FRecordList: TRecordList;
 
+    FTableExists: Boolean;
+
     procedure ListSave(Sender: TObject); virtual; abstract;
     procedure ListDelete(Sender: TObject); virtual; abstract;
   public
@@ -35,6 +37,7 @@ type
     function getTableName: string;
 
     property RecordList: TRecordList read FRecordList write FRecordList;
+    property TableExists: Boolean read FTableExists write FTableExists;
 
     constructor Create;
     destructor Destroy; override;
@@ -109,6 +112,20 @@ begin
     FDbQuery := TSQLQuery.Create(nil);
     try
       FDbQuery.SQL.Text :=
+        'SELECT * FROM tblCategory;';
+      FDbQuery := FDb.selectQuery(FDbQuery);
+      FDbQuery.Open;
+      if not FDbQuery.EOF then
+        TableExists:=true
+      else
+        TableExists:=false;
+      finally
+      if Assigned(FDbQuery) then
+        FreeAndNil(FDbQuery);
+    end;
+    FDbQuery := TSQLQuery.Create(nil);
+    try
+      FDbQuery.SQL.Text :=
         'CREATE TABLE IF NOT EXISTS tblCategory ' +
         '(category_id INTEGER NOT NULL, ' +
         'description VARCHAR(200) UNIQUE NOT NULL, ' +
@@ -119,6 +136,29 @@ begin
     finally
       if Assigned(FDbQuery) then
         FreeAndNil(FDbQuery);
+    end;
+    if TableExists = false then begin
+      FDbQuery := TSQLQuery.Create(nil);
+      try
+        FDbQuery.SQL.Text :=
+          'INSERT INTO tblCategory (description, priority) VALUES ' +
+          '(:d1, :p1), ' +
+          '(:d2, :p2), ' +
+          '(:d3, :p3), ' +
+          '(:d4, :p4);';
+        FDbQuery.ParamByName('d1').AsString:='Lebensmittel';
+        FDbQuery.ParamByName('p1').AsInteger:=200;
+        FDbQuery.ParamByName('d2').AsString:='Getränke';
+        FDbQuery.ParamByName('p2').AsInteger:=201;
+        FDbQuery.ParamByName('d3').AsString:='Kleidung';
+        FDbQuery.ParamByName('p3').AsInteger:=300;
+        FDbQuery.ParamByName('d4').AsString:='Sonstiges';
+        FDbQuery.ParamByName('p4').AsInteger:=400;
+        FDb.execQuery(FDbQuery);
+      finally
+        if Assigned(FDbQuery) then
+          FreeAndNil(FDbQuery);
+      end;
     end;
   finally
     if Assigned(FDb) then

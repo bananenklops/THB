@@ -71,22 +71,12 @@ begin
 end;
 
 procedure TFormMain.loadItemList;
-const
-  MAX_TABS = 4;
-  Tab = #32;
 var
   item: TItemRecord;
   size, i: integer;
   categoryString: string;
-  Tabulators: array[0..MAX_TABS] of Integer;
   li: TListItem;
 begin
-  Tabulators[0] := 70;
-  Tabulators[1] := 120;
-  Tabulators[2] := 100;
-  Tabulators[3] := 80;
-  //lis_items.TabWidth := 1;
-  //SendMessage(lis_items.Handle, LBS_, MAX_TABS, Longint(@Tabulators));
   FItemTable.getEntries;
 
   size := FItemTable.RecordList.Count;

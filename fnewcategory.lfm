@@ -1,7 +1,7 @@
 object FormNewCategory: TFormNewCategory
-  Left = 750
+  Left = 758
   Height = 232
-  Top = 396
+  Top = 394
   Width = 289
   Caption = 'Neue Kategorie'
   ClientHeight = 232
@@ -76,14 +76,6 @@ object FormNewCategory: TFormNewCategory
     ParentColor = False
     ParentFont = False
   end
-  object lis_categories: TListBox
-    Left = 8
-    Height = 112
-    Top = 8
-    Width = 272
-    ItemHeight = 0
-    TabOrder = 5
-  end
   object btn_delete: TButton
     Left = 106
     Height = 25
@@ -91,6 +83,25 @@ object FormNewCategory: TFormNewCategory
     Width = 75
     Caption = 'Löschen'
     OnClick = btn_deleteClick
+    TabOrder = 5
+  end
+  object liv_categories: TListView
+    Left = 8
+    Height = 112
+    Top = 8
+    Width = 274
+    AutoWidthLastColumn = True
+    Columns = <    
+      item
+        Caption = 'Bezeichnung'
+        Width = 190
+      end    
+      item
+        Caption = 'Priorität'
+        Width = 80
+      end>
+    RowSelect = True
     TabOrder = 6
+    ViewStyle = vsReport
   end
 end

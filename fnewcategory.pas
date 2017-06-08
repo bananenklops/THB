@@ -6,7 +6,7 @@ interface
 
 uses
   Classes, SysUtils, FileUtil, Forms, Controls, Graphics, Dialogs,
-  StdCtrls, mDbTable, mRecord, fgl;
+  StdCtrls, ComCtrls, mDbTable, mRecord, fgl;
 
 type
 
@@ -19,7 +19,7 @@ type
     GroupBox1: TGroupBox;
     lblDescription: TLabel;
     lblPriority: TLabel;
-    lis_categories: TListBox;
+    liv_categories: TListView;
     txtDescription: TEdit;
     txtPriority: TEdit;
     procedure btnAbortClick(Sender: TObject);
@@ -68,8 +68,10 @@ end;
 procedure TFormNewCategory.btn_deleteClick(Sender: TObject);
 var
   categoryRecord: TCategoryRecord;
+  li: TListItem;
 begin
-  categoryRecord := TCategoryRecord(lis_categories.Items.Objects[lis_categories.ItemIndex]);
+  li := liv_categories.Selected;
+  categoryRecord := TCategoryRecord(li.SubItems.Objects[1]);
   categoryRecord.deleteRecord;
   loadList;
 end;
@@ -83,13 +85,17 @@ procedure TFormNewCategory.loadList;
 var
   size, i: integer;
   categoryRecord: TCategoryRecord;
+  li: TListItem;
 begin
   Category.getEntries;
-  lis_categories.Clear;
+  liv_categories.Clear;
   size := Category.RecordList.Count;
   for i := 0 to (size - 1) do begin
-    categoryRecord := TCategoryRecord(Category.RecordList[i]);
-    lis_categories.AddItem(categoryRecord.Description, categoryRecord);
+    categoryRecord := TCategoryRecord(FCategory.RecordList.Items[i]);
+    li:=liv_categories.Items.Add;
+    li.Caption:=categoryRecord.Description;
+    li.SubItems.Add(categoryRecord.Priority.ToString);
+    li.SubItems.AddObject('Obj',categoryRecord);
   end;
 end;
 
